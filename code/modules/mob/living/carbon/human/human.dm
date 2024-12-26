@@ -288,16 +288,14 @@
 		if(usr == src)
 			return
 		if(dna)
-			for(var/i in H.voted_for)
-				if(i == dna.real_name)
-					to_chat(H, "<span class='warning'>You have already noted their masquerade breach! Wait some time until you do that again.</span>")
-					return
+			if (H.voted_for.Find(dna.real_name))
+				to_chat(H, "<span class='warning'>You have already noted their masquerade breach! Wait some time until you do that again.</span>")
+				return
 			var/reason = input(usr, "Write a description of violation:", "Spot a Masquerade violation") as text|null
 			if(reason)
-				for(var/i in H.voted_for) //Rudimentary check to avoid queueing a whole bunch of reason texts and then nuking their masquerade to 0.
-					if(i == dna.real_name)
-						to_chat(H, "<span class='warning'>You have already noted their masquerade breach! Wait some time until you do that again.</span>")
-						return
+				if (H.voted_for.Find(dna.real_name)) //Rudimentary check to avoid queueing a whole bunch of reason texts and then nuking their masquerade to 0.
+					to_chat(H, "<span class='warning'>You have already noted their masquerade breach! Wait some time until you do that again.</span>")
+					return
 				reason = trim(copytext_char(sanitize(reason), 1, MAX_MESSAGE_LEN))
 				masquerade_votes++
 				message_admins("[ADMIN_LOOKUPFLW(H)] spotted [ADMIN_LOOKUPFLW(src)]'s Masquerade violation. Description: [reason]")
