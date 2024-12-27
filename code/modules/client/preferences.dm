@@ -1179,18 +1179,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 //
 /datum/preferences/proc/build_attribute_score(var/attribute, var/bonus_number, var/price, var/variable_name)
 	var/dat
-	var/points = attribute
 	for(var/a in 1 to attribute)
-		if(points > 0)
-			dat += "•"
-			points--
-			continue
+		dat += "•"
 	for(var/b in 1 to bonus_number)
 		dat += "•"
 	var/leftover_circles = 5 - attribute //5 is the default number of blank circles
-	if(leftover_circles > 0)
-		for(var/c in 1 to leftover_circles)
-			dat += "o"
+	for(var/c in 1 to leftover_circles)
+		dat += "o"
 	var/real_price = attribute ? (attribute*price) : price //In case we have an attribute of 0, we don't multiply by 0
 	if((true_experience >= real_price) && (attribute < ATTRIBUTE_BASE_LIMIT))
 		dat += "<a href='?_src_=prefs;preference=[variable_name];task=input'>Increase ([real_price])</a>"

@@ -27,7 +27,6 @@
 	start_physique = 2
 	start_social = 2
 	start_mentality = 2
-	start_blood = 1
 	archetype_additional_physique = 1
 	archetype_additional_social = 1
 	archetype_additional_mentality = 1
@@ -37,7 +36,6 @@
 	name = "Warrior"
 	specialization = "<i>Better melee combat skills.</i><br>Melee attacks are twice as fast."
 	start_physique = 2
-	start_social = 1
 	start_mentality = 2
 	start_blood = 2
 
@@ -48,7 +46,6 @@
 	name = "Gunfighter"
 	specialization = "<i>Better shooting technique.</i><br>Ranged attacks are twice as fast."
 	start_physique = 2
-	start_social = 1
 	start_mentality = 2
 	start_blood = 2
 
@@ -61,7 +58,6 @@
 	start_physique = 2
 	start_social = 2
 	start_mentality = 2
-	start_blood = 1
 
 /datum/archetype/diplomatic/special_skill(var/mob/living/carbon/human/H)
 	H.more_companions = 3
@@ -70,9 +66,6 @@
 	name = "Masochist"
 	specialization = "<i>Takes more blows before passage.</i><br>You can sustain 30 more damage before falling into a critical condition."
 	start_physique = 3
-	start_social = 1
-	start_mentality = 1
-	start_blood = 1
 
 /datum/archetype/masochist/special_skill(var/mob/living/carbon/human/H)
 	ADD_TRAIT(H, TRAIT_NOSOFTCRIT, TRAUMA_TRAIT)
@@ -80,34 +73,22 @@
 /datum/archetype/wiseman
 	name = "Wiseman"
 	specialization = "<i>A lot more mental than you can expect</i>.<br>Mentality is calculated as if it is 3 points higher than it is."
-	start_physique = 1
-	start_social = 1
 	start_mentality = 3
-	start_blood = 1
 	archetype_additional_mentality = 3
 
 /datum/archetype/beauty
 	name = "Sharp Beauty"
 	specialization = "<i>Charisma power.</i><br>Social is calculated as if it is 3 points higher than it is."
-	start_physique = 1
 	start_social = 3
-	start_mentality = 1
 	start_blood = 2
 	archetype_additional_social = 3
 
 /datum/archetype/dude
 	name = "Dude"
 	specialization = "<i>Sadistic consequences.</i><br>Cruelty is calculated as if it is 3 points higher than it is."
-	start_physique = 1
-	start_social = 1
-	start_mentality = 1
 	start_blood = 3
 	archetype_additional_blood = 3
 
 /datum/archetype/homebrew
 	name = "Homebrew"
 	specialization = "<i>Mommy's child.</i><br>No bonuses."
-	start_physique = 1
-	start_social = 1
-	start_mentality = 1
-	start_blood = 1
