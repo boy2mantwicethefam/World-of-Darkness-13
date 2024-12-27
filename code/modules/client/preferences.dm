@@ -471,7 +471,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			var/dexterity_price = 4
 			var/social_price = 4
 			var/mentality_price = 4
-			var/blood_price = 3
+			var/blood_price = 6
 			//Lockpicking and Athletics have an initial price of 3
 			var/lockpicking_price = !lockpicking ? 3 : 2
 			var/athletics_price = !athletics ? 3 : 2
@@ -2074,7 +2074,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						mentality++
 
 				if("blood")
-					if(handle_upgrade(blood, blood * 3))
+					if(handle_upgrade(blood, blood * 6))
 						blood++
 
 				if("lockpicking")
