@@ -27,6 +27,7 @@
 	brutemod = 0.5	// or change to 0.8
 	heatmod = 1		//Sucking due to overheating	///THEY DON'T SUCK FROM FIRE ANYMORE
 	burnmod = 2
+	burn_heal_mod = 0.2 //Aggravated damage from fire is far harder to heal. At max blood heal this should also mean 16 burn damage healed. Ouch.
 	punchdamagelow = 10
 	punchdamagehigh = 20
 	dust_anim = "dust-h"

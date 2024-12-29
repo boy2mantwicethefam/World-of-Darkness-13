@@ -90,6 +90,9 @@ GLOBAL_LIST_EMPTY(selectable_races)
 	var/heatmod = 1
 	///multiplier for stun durations
 	var/stunmod = 1
+	///healing modifiers
+	var/brute_heal_mod = 1
+	var/burn_heal_mod = 1
 	///multiplier for money paid at payday
 	var/payday_modifier = 1
 	///Type of damage attack does. Ethereals attack with burn damage for example.

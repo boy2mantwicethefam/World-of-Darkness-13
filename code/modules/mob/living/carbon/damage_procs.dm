@@ -231,7 +231,16 @@
 		var/burn_was = picked.burn_dam
 		var/stamina_was = picked.stamina_dam
 
-		update |= picked.heal_damage(brute, burn, stamina, required_status, FALSE)
+		//We are not making a human subtype of heal_overall_damage yet, so this should suffice.
+		var/brute_modifier = 1
+		var/burn_modifier = 1
+		if(ishuman(src))
+			var/mob/living/carbon/human/H = src
+			if(H.dna && H.dna.species)
+				brute_modifier = H.dna.species.brute_heal_mod
+				burn_modifier = H.dna.species.burn_heal_mod
+
+		update |= picked.heal_damage(brute * brute_modifier, burn * burn_modifier, stamina, required_status, FALSE)
 
 		brute = round(brute - (brute_was - picked.brute_dam), DAMAGE_PRECISION)
 		burn = round(burn - (burn_was - picked.burn_dam), DAMAGE_PRECISION)
