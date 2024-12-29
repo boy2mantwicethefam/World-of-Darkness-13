@@ -714,5 +714,5 @@
 //Vampires take 4% of their max health in burn damage every tick they are on fire. Very potent against lower-gens.
 //Set at 0.02 because they already take twice as much burn damage.
 /datum/species/kindred/handle_fire(mob/living/carbon/human/H, no_protection)
-	..()
-	H.adjustFireLoss(H.maxHealth * 0.02)
+	if(!..())
+		H.adjustFireLoss(H.maxHealth * 0.02)
