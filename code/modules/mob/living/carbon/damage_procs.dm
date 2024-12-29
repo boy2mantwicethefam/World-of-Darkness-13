@@ -223,7 +223,7 @@
 /mob/living/carbon/heal_overall_damage(brute = 0, burn = 0, stamina = 0, required_status, updating_health = TRUE)
 	var/list/obj/item/bodypart/parts = get_damaged_bodyparts(brute, burn, stamina, required_status)
 
-	//Modify the damage according to the target's species ahead of time.
+	//Modify the healing according to the target's species ahead of time.
 	//We are not making a human subtype of heal_overall_damage yet, so this should suffice.
 	if(ishuman(src))
 		var/mob/living/carbon/human/H = src
