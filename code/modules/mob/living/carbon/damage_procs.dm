@@ -223,6 +223,14 @@
 /mob/living/carbon/heal_overall_damage(brute = 0, burn = 0, stamina = 0, required_status, updating_health = TRUE)
 	var/list/obj/item/bodypart/parts = get_damaged_bodyparts(brute, burn, stamina, required_status)
 
+	//Modify the damage according to the target's species ahead of time.
+	//We are not making a human subtype of heal_overall_damage yet, so this should suffice.
+	if(ishuman(src))
+		var/mob/living/carbon/human/H = src
+		if(H.dna && H.dna.species)
+			brute *= H.dna.species.brute_heal_mod
+			burn *= H.dna.species.burn_heal_mod
+
 	var/update = NONE
 	while(parts.len && (brute > 0 || burn > 0 || stamina > 0))
 		var/obj/item/bodypart/picked = pick(parts)
@@ -231,16 +239,7 @@
 		var/burn_was = picked.burn_dam
 		var/stamina_was = picked.stamina_dam
 
-		//We are not making a human subtype of heal_overall_damage yet, so this should suffice.
-		var/brute_modifier = 1
-		var/burn_modifier = 1
-		if(ishuman(src))
-			var/mob/living/carbon/human/H = src
-			if(H.dna && H.dna.species)
-				brute_modifier = H.dna.species.brute_heal_mod
-				burn_modifier = H.dna.species.burn_heal_mod
-
-		update |= picked.heal_damage(brute * brute_modifier, burn * burn_modifier, stamina, required_status, FALSE)
+		update |= picked.heal_damage(brute, burn, stamina, required_status, FALSE)
 
 		brute = round(brute - (brute_was - picked.brute_dam), DAMAGE_PRECISION)
 		burn = round(burn - (burn_was - picked.burn_dam), DAMAGE_PRECISION)
