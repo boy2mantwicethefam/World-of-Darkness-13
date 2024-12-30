@@ -375,7 +375,7 @@
 		//I'm sure there has to be a better method for this because it's ugly, but it works.
 		//Putting a condition here to avoid dividing 0.
 		var/odds = value ? clamp((value/max_rand_value), 0, 1) : 0
-		. += "<span class='notice'>As an expert in lockpicking, you estimate that you have a <span class='bnotice'>[round(odds*100, 1)]%</span> chance to lockpick this door successfully.</span>"
+		. += "<span class='notice'>As an expert in lockpicking, you estimate that you have a [round(odds*100, 1)]% chance to lockpick this door successfully.</span>"
 
 /obj/structure/vampdoor/attack_hand(mob/user)
 	. = ..()
