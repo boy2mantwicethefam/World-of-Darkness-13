@@ -325,35 +325,21 @@
 
 /obj/structure/vampdoor/New()
 	..()
-
-	switch(lockpick_difficulty)
-		if(-INFINITY to LOCKDIFFICULTY_1)
-			// desc = "This door is really simple. Anyone could try to lockpick it."
-			lockpick_timer = LOCKTIMER_1
-
-		if(LOCKDIFFICULTY_2)
-			// desc = "This door is mildly complicated. It wouldn't be hard to lockpick."
-			lockpick_timer = LOCKTIMER_2
-
-		if(LOCKDIFFICULTY_3)
-			// desc = "This door looks complicated. It would be slightly difficult to lockpick."
-			lockpick_timer = LOCKTIMER_3
-
-		if(LOCKDIFFICULTY_4)
-			// desc = "This door looks rather complicated. It would be difficult to lockpick."
-			lockpick_timer = LOCKTIMER_4
-
-		if(LOCKDIFFICULTY_5)
-			// desc = "This door looks very complicated. It would be very difficult to lockpick."
-			lockpick_timer = LOCKTIMER_5
-
-		if(LOCKDIFFICULTY_6)
-			// desc = "This door looks extremely complicated. It would require a master to lockpick."
-			lockpick_timer = LOCKTIMER_6
-
+	switch(lockpick_difficulty) //This is fine because any overlap gets intercepted before
 		if(LOCKDIFFICULTY_7 to INFINITY)
-			// desc = "This door looks legendarily complex. Is it even possible to lockpick it?"
 			lockpick_timer = LOCKTIMER_7
+		if(LOCKDIFFICULTY_6 to LOCKDIFFICULTY_7)
+			lockpick_timer = LOCKTIMER_6
+		if(LOCKDIFFICULTY_5 to LOCKDIFFICULTY_6)
+			lockpick_timer = LOCKTIMER_5
+		if(LOCKDIFFICULTY_4 to LOCKDIFFICULTY_5)
+			lockpick_timer = LOCKTIMER_4
+		if(LOCKDIFFICULTY_3 to LOCKDIFFICULTY_4)
+			lockpick_timer = LOCKTIMER_3
+		if(LOCKDIFFICULTY_2 to LOCKDIFFICULTY_3)
+			lockpick_timer = LOCKTIMER_2
+		if(-INFINITY to LOCKDIFFICULTY_2) //LOCKDIFFICULTY_1 is basically the minimum so we can just do LOCKTIMER_1 from -INFINITY
+			lockpick_timer = LOCKTIMER_1
 
 /obj/structure/vampdoor/examine(mob/user)
 	. = ..()
