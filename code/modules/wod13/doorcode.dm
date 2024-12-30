@@ -360,6 +360,8 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
+	if(!H.is_holding_item_of_type(/obj/item/vamp/keys/hack))
+		return
 	var/message //So the code isn't flooded with . +=, it's just a visual thing
 	var/difference = (H.lockpicking * 2 + H.dexterity) - lockpick_difficulty //Lower number = higher difficulty
 	switch(difference) //Because rand(1,20) always adds a minimum of 1 we take that into consideration for our theoretical roll ranges, which really makes it a random range of 19.
