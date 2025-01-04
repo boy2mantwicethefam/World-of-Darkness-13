@@ -290,7 +290,7 @@
 	signal.transmission_method = TRANSMISSION_RADIO
 
 	//WoD13 edit! We want the radio to reach most of the z-levels, not just the one it's on.
-	//Ugly hardcoding; z-level 1 is the splashscreen (no signal), 2 is sewers (no signal), 3 is city, 4 is upper floors, 5 is special, 6 is Penumbra (no signal)
+	//Ugly hardcoding; z-level 1 is the splashscreen (no signal), 2 is sewers, 3 is city, 4 is upper floors, 5 is special, 6 is Penumbra (no signal)
 	signal.levels = list(2, 3, 4, 5)
 	signal.broadcast()
 
