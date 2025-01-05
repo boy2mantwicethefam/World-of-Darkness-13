@@ -1415,7 +1415,7 @@ GLOBAL_LIST_EMPTY(selectable_races)
 
 		if(user.potential >= 5)
 			var/atom/throw_target = get_edge_target_turf(target, user.dir)
-			target.throw_at(throw_target, rand(5, 7), 4, user)
+			target.throw_at(throw_target, rand(5, 7), 4, user, gentle = TRUE) //No stun nor impact damage from throwing people around
 
 		target.lastattacker = user.real_name
 		target.lastattackerckey = user.ckey
