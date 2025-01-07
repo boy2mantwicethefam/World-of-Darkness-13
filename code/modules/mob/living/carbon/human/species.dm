@@ -1341,11 +1341,11 @@ GLOBAL_LIST_EMPTY(selectable_races)
 
 /datum/species/proc/grab(mob/living/carbon/human/user, mob/living/target, datum/martial_art/attacker_style)
 	if(ishuman(target))
-		var/mob/living/carbon/human/H = target
-		if(H.check_block())
-			H.visible_message("<span class='warning'>[H] blocks [user]'s grab!</span>", \
+		var/mob/living/carbon/human/human = target
+		if(human.check_block())
+			human.visible_message("<span class='warning'>[human] blocks [user]'s grab!</span>", \
 							"<span class='userdanger'>You block [user]'s grab!</span>", "<span class='hear'>You hear a swoosh!</span>", COMBAT_MESSAGE_RANGE, user)
-			to_chat(user, "<span class='warning'>Your grab at [H] was blocked!</span>")
+			to_chat(user, "<span class='warning'>Your grab at [human] was blocked!</span>")
 			return FALSE
 	if(attacker_style?.grab_act(user,target))
 		return TRUE
