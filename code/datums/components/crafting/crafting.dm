@@ -431,6 +431,7 @@
 			else
 				to_chat(user, "<span class='warning'>Construction failed[result]</span>")
 			busy = FALSE
+			ui_interact(user) //Update the UI again as soon as possible after the UI is no longer busy
 		if("toggle_recipes")
 			display_craftable_only = !display_craftable_only
 			. = TRUE
