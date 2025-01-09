@@ -1435,8 +1435,7 @@ GLOBAL_LIST_EMPTY(selectable_races)
 
 		///// WoD13 edit; punchstunthreshold variable on species was commented out.
 		// if((target.stat != DEAD) && damage >= user.dna.species.punchstunthreshold)
-		// 	target.visible_message("<span class='danger'>[user] knocks [target] down!</span>", \
-		// 					"<span class='userdanger'>You're knocked down by [user]!</span>", "<span class='hear'>You hear aggressive shuffling followed by a loud thud!</span>", COMBAT_MESSAGE_RANGE, user)
+		// 	target.visible_message("<span class='danger'>[user] knocks [target] down!</span>", "<span class='userdanger'>You're knocked down by [user]!</span>", "<span class='hear'>You hear aggressive shuffling followed by a loud thud!</span>", COMBAT_MESSAGE_RANGE, user)
 		// 	to_chat(user, "<span class='danger'>You knock [target] down!</span>")
 		// 	var/knockdown_duration = 40 + (target.getStaminaLoss() + (target.getBruteLoss()*0.5))*0.8 //50 total damage = 40 base stun + 40 stun modifier = 80 stun duration, which is the old base duration
 		// 	target.apply_effect(knockdown_duration, EFFECT_KNOCKDOWN, armor_block)
