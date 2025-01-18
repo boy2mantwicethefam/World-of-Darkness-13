@@ -247,12 +247,10 @@
 		H.blood_volume = min(H.blood_volume + 56, 560)
 		button.color = "#970000"
 		animate(button, color = "#ffffff", time = 20, loop = 1)
-		for(var/i in 1 to 5)
-			if(length(H.all_wounds))
+		if(length(H.all_wounds))
+			for(var/i in 1 to min(5, length(H.all_wounds))
 				var/datum/wound/W = pick(H.all_wounds)
 				W.remove_wound()
-			else
-				break
 		H.adjustCloneLoss(-5, TRUE)
 		var/obj/item/organ/eyes/eyes = H.getorganslot(ORGAN_SLOT_EYES)
 		if(eyes)
