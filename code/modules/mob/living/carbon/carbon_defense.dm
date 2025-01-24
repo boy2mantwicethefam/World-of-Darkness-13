@@ -386,6 +386,9 @@
 			else
 				append_message = "loosening [target.p_their()] grip on [target_held_item]"
 		log_combat(src, target, "shoved", append_message)
+	if(potential >= 5)
+		var/atom/throw_target = get_edge_target_turf(target, shove_dir)
+		target.throw_at(throw_target, rand(5, 7), 4, src, gentle = TRUE) //No stun nor impact damage from throwing people around
 
 /mob/living/carbon/proc/is_shove_knockdown_blocked() //If you want to add more things that block shove knockdown, extend this
 	for (var/obj/item/clothing/clothing in get_equipped_items())
