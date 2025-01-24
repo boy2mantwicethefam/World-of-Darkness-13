@@ -75,6 +75,8 @@
 					return
 				if(user.grab_state >= GRAB_NECK)
 					tablelimbsmash(user, pushed_mob)
+					if(ishuman(pushed_mob) && pushed_mob.stat != DEAD)
+						call_dharma("torture", user)
 				else
 					tablepush(user, pushed_mob)
 			if(user.a_intent == INTENT_HELP)
@@ -106,6 +108,11 @@
 		return TRUE
 	if(locate(/obj/structure/table) in get_turf(mover))
 		return TRUE
+	//Roughly the same elevation
+	if(istype(mover.loc, /turf/closed/wall/vampwall)) //Because "low" type walls aren't standardized and are subtypes of different wall types
+		var/turf/closed/wall/vampwall/vw = mover.loc
+		if(vw.low)
+			return TRUE
 
 /obj/structure/table/CanAStarPass(ID, dir, caller)
 	. = !density

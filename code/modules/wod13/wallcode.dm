@@ -54,6 +54,13 @@
 			return
 		if(istype(mover) && (mover.pass_flags & PASSTABLE))
 			return TRUE
+		if(istype(mover.loc, /turf/closed/wall/vampwall)) //Because "low" type walls aren't standardized and are subtypes of different wall types
+			var/turf/closed/wall/vampwall/vw = mover.loc
+			if(vw.low)
+				return TRUE
+		//Roughly the same elevation
+		if(locate(/obj/structure/table) in get_turf(mover))
+			return TRUE
 
 /turf/closed/wall/vampwall/attackby(obj/item/W, mob/user, params)
 	return
@@ -126,6 +133,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE //Let the windows block the air transfer
 
 /turf/closed/wall/vampwall/low/window
 	icon_state = "wall-window"
@@ -141,6 +149,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/rich/low/window
 	icon_state = "rich-window"
@@ -160,6 +169,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/junk/low/window
 	icon_state = "junk-window"
@@ -173,6 +183,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/junk/alt/low/window
 	icon_state = "junkalt-window"
@@ -188,6 +199,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/market/low/window
 	icon_state = "market-window"
@@ -207,6 +219,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/old/low/window
 	icon_state = "old-window"
@@ -226,6 +239,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/painted/low/window
 	icon_state = "painted-window"
@@ -245,6 +259,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/rich/old/low/window
 	icon_state = "theater-window"
@@ -264,6 +279,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/brick/low/window
 	icon_state = "brick-window"
@@ -285,6 +301,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/city/low/window
 	icon_state = "city-window"
@@ -325,6 +342,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/bar/low/window
 	icon_state = "bar-window"
@@ -340,6 +358,7 @@
 	icon = 'code/modules/wod13/lowwalls.dmi'
 	opacity = FALSE
 	low = TRUE
+	blocks_air = FALSE
 
 /turf/closed/wall/vampwall/wood/low/window
 	icon_state = "wood-window"
@@ -571,6 +590,10 @@
 				barefootstep = FOOTSTEP_SNOW
 				heavyfootstep = FOOTSTEP_SNOW
 
+//Airless version of this because they are used as a z-level 4 roof on a z-level 3 building, and since they aren't meant to be reached...
+/turf/open/floor/plating/roofwalk/no_air
+	blocks_air = 1
+
 /obj/effect/decal/bordur
 	name = "sidewalk"
 	icon = 'code/modules/wod13/tiles.dmi'
@@ -659,6 +682,45 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 
+/turf/open/floor/plating/vampgrass/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/melee/vampirearms/shovel))
+		var/obj/structure/bury_pit/P = locate() in src
+		if(P)
+			if(!P.burying)
+				P.burying = TRUE
+				user.visible_message("<span class='warning'>[user] starts to dig [src]</span>", "<span class='warning'>You start to dig [src].</span>")
+				if(do_mob(user, src, 10 SECONDS))
+					P.burying = FALSE
+					if(P.icon_state == "pit0")
+						var/dead_amongst = FALSE
+						for(var/mob/living/L in src)
+							L.forceMove(P)
+							if(L.stat == DEAD)
+								dead_amongst = TRUE
+						P.icon_state = "pit1"
+						user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+						if(dead_amongst)
+							call_dharma("respect", user)
+					else
+						var/dead_amongst = FALSE
+						for(var/mob/living/L in P)
+							L.forceMove(src)
+							if(L.stat == DEAD)
+								dead_amongst = TRUE
+						P.icon_state = "pit0"
+						user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+						if(dead_amongst)
+							call_dharma("disrespect", user)
+				else
+					P.burying = FALSE
+		else
+			user.visible_message("<span class='warning'>[user] starts to dig [src]</span>", "<span class='warning'>You start to dig [src].</span>")
+			if(do_mob(user, src, 10 SECONDS))
+				if(!locate(/obj/structure/bury_pit) in src)
+					user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+					new /obj/structure/bury_pit(src)
+
+
 /turf/open/floor/plating/vampgrass/Initialize()
 	..()
 	set_light(1, 0.5, "#a4b7ff")
@@ -698,6 +760,44 @@
 	barefootstep = FOOTSTEP_ASPHALT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+
+/turf/open/floor/plating/vampdirt/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/melee/vampirearms/shovel))
+		var/obj/structure/bury_pit/P = locate() in src
+		if(P)
+			if(!P.burying)
+				P.burying = TRUE
+				user.visible_message("<span class='warning'>[user] starts to dig [src]</span>", "<span class='warning'>You start to dig [src].</span>")
+				if(do_mob(user, src, 10 SECONDS))
+					P.burying = FALSE
+					if(P.icon_state == "pit0")
+						var/dead_amongst = FALSE
+						for(var/mob/living/L in src)
+							L.forceMove(P)
+							if(L.stat == DEAD)
+								dead_amongst = TRUE
+						P.icon_state = "pit1"
+						user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+						if(dead_amongst)
+							call_dharma("respect", user)
+					else
+						var/dead_amongst = FALSE
+						for(var/mob/living/L in P)
+							L.forceMove(src)
+							if(L.stat == DEAD)
+								dead_amongst = TRUE
+						P.icon_state = "pit0"
+						user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+						if(dead_amongst)
+							call_dharma("disrespect", user)
+				else
+					P.burying = FALSE
+		else
+			user.visible_message("<span class='warning'>[user] starts to dig [src]</span>", "<span class='warning'>You start to dig [src].</span>")
+			if(do_mob(user, src, 10 SECONDS))
+				if(!locate(/obj/structure/bury_pit) in src)
+					user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+					new /obj/structure/bury_pit(src)
 
 /turf/open/floor/plating/vampdirt/Initialize()
 	. = ..()
@@ -989,6 +1089,44 @@
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 
+/turf/open/floor/plating/vampbeach/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/melee/vampirearms/shovel))
+		var/obj/structure/bury_pit/P = locate() in src
+		if(P)
+			if(!P.burying)
+				P.burying = TRUE
+				user.visible_message("<span class='warning'>[user] starts to dig [src]</span>", "<span class='warning'>You start to dig [src].</span>")
+				if(do_mob(user, src, 10 SECONDS))
+					P.burying = FALSE
+					if(P.icon_state == "pit0")
+						var/dead_amongst = FALSE
+						for(var/mob/living/L in src)
+							L.forceMove(P)
+							if(L.stat == DEAD)
+								dead_amongst = TRUE
+						P.icon_state = "pit1"
+						user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+						if(dead_amongst)
+							call_dharma("respect", user)
+					else
+						var/dead_amongst = FALSE
+						for(var/mob/living/L in P)
+							L.forceMove(src)
+							if(L.stat == DEAD)
+								dead_amongst = TRUE
+						P.icon_state = "pit0"
+						user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+						if(dead_amongst)
+							call_dharma("disrespect", user)
+				else
+					P.burying = FALSE
+		else
+			user.visible_message("<span class='warning'>[user] starts to dig [src]</span>", "<span class='warning'>You start to dig [src].</span>")
+			if(do_mob(user, src, 10 SECONDS))
+				if(!locate(/obj/structure/bury_pit) in src)
+					user.visible_message("<span class='warning'>[user] digs a hole in [src].</span>", "<span class='warning'>You dig a hole in [src].</span>")
+					new /obj/structure/bury_pit(src)
+
 /turf/open/floor/plating/vampbeach/Initialize()
 	..()
 	icon_state = "sand[rand(1, 4)]"
@@ -1011,7 +1149,14 @@
 	barefootstep = FOOTSTEP_WATER
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	density = TRUE
+	density = FALSE
+
+/turf/open/floor/plating/vampocean/Enter(atom/movable/mover, atom/oldloc)
+	if(isliving(mover))
+		var/mob/living/swimmer = mover
+		if(!HAS_TRAIT(swimmer, TRAIT_SUPERNATURAL_DEXTERITY))
+			return FALSE
+	. = ..()
 
 /turf/open/floor/plating/vampocean/Initialize()
 	..()

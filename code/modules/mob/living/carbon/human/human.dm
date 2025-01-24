@@ -728,6 +728,7 @@
 				var/mob/living/carbon/human/npc/N = target
 				if(N.last_damager != src)
 					AdjustHumanity(1, 10)
+					call_dharma("savelife", src)
 //			if(key)
 //				var/datum/preferences/P = GLOB.preferences_datums[ckey(key)]
 //				if(P)
@@ -1161,9 +1162,11 @@
 	if(body_position != STANDING_UP)
 		return
 	if(above_turf && istype(above_turf, /turf/open/openspace))
+		var/total_dexterity = get_total_dexterity()
+		var/total_athletics = get_total_athletics()
 		to_chat(src, "<span class='notice'>You start climbing up...</span>")
 
-		var/result = do_after(src, 50 - (dexterity + athletics * 5), 0)
+		var/result = do_after(src, 50 - (total_dexterity + total_athletics * 5), 0)
 		if(!result)
 			to_chat(src, "<span class='warning'>You were interrupted and failed to climb up.</span>")
 			return
@@ -1179,16 +1182,17 @@
 			// Reset pixel offsets
 			return
 
+		//(< 5, slip and take damage), (5-14, fail to climb), (>= 15, climb up successfully)
 		var/roll = rand(1, 20)
 		// var/physique = physique
-		if(roll + dexterity + (athletics * 2) >= 15)
+		if((roll + total_dexterity + (total_athletics * 2)) >= 15)
 			loc = above_turf
 			var/turf/forward_turf = get_step(loc, dir)
 			if(forward_turf && !forward_turf.density)
 				forceMove(forward_turf)
 				to_chat(src, "<span class='notice'>You climb up successfully.</span>")
 				// Reset pixel offsets after climbing up
-		if(roll + dexterity + (athletics * 2) < 5)
+		else if((roll + total_dexterity + (total_athletics * 2)) < 5)
 			ZImpactDamage(loc, 1)
 			to_chat(src, "<span class='warning'>You slip while climbing!</span>")
 			// Reset pixel offsets if failed
@@ -1259,9 +1263,11 @@
 		remove_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying)
 		return
 	var/health_deficiency = max((maxHealth - health), staminaloss)
-	if(health_deficiency >= 40)
-		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown, TRUE, multiplicative_slowdown = health_deficiency / 75)
-		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying, TRUE, multiplicative_slowdown = health_deficiency / 25)
+	var/health_scale_modifier = maxHealth/100 //If the human has a higher amount of max health this will be reflected in the amount of damage required to slow down.
+	var/health_slowdown = health_deficiency / (75 * health_scale_modifier)
+	if(health_deficiency >= (40 * health_scale_modifier))
+		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown, TRUE, multiplicative_slowdown = health_slowdown)
+		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying, TRUE, multiplicative_slowdown = health_slowdown)
 	else
 		remove_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown)
 		remove_movespeed_modifier(/datum/movespeed_modifier/damage_slowdown_flying)

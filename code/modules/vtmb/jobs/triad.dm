@@ -17,7 +17,7 @@
 	display_order = JOB_DISPLAY_ORDER_TRIAD_GANGSTER
 	exp_type_department = EXP_TYPE_GANG
 
-	allowed_species = list("Human", "Werewolf")
+	allowed_species = list("Human", "Werewolf", "Kuei-Jin")
 	minimal_generation = 13
 
 	duty = "Make money, do drugs, fight law. Your hideout is the laundromat in Chinatown."
@@ -27,7 +27,7 @@
 
 /datum/outfit/job/triad_soldier/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.grant_language(/datum/language/chinese)
+	H.grant_language(/datum/language/cantonese)
 	if(H.gender == FEMALE)
 		uniform = /obj/item/clothing/under/vampire/suit/female
 		shoes = /obj/item/clothing/shoes/vampire/heels

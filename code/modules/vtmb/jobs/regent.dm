@@ -30,7 +30,7 @@
 	name = "Chantry Regent"
 	jobtype = /datum/job/vamp/regent
 
-	id = /obj/item/card/id/archive
+	id = /obj/item/card/id/regent
 	glasses = /obj/item/clothing/glasses/vampire/perception
 	suit = /obj/item/clothing/suit/vampire/trench/archive
 	shoes = /obj/item/clothing/shoes/vampire
@@ -43,7 +43,6 @@
 
 /datum/outfit/job/regent/pre_equip(mob/living/carbon/human/H)
 	..()
-	H.vampire_faction = "Chantry"
 	if(H.gender == FEMALE)
 		uniform = /obj/item/clothing/under/vampire/archivist/female
 		shoes = /obj/item/clothing/shoes/vampire/heels

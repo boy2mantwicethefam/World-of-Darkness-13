@@ -392,12 +392,12 @@
 		to_chat(src, text="You are unable to succumb to death! This life continues.", type=MESSAGE_TYPE_INFO)
 		return
 	log_message("Has [whispered ? "whispered his final words" : "succumbed to death"] with [round(health, 0.1)] points of health!", LOG_ATTACK)
-	if(iskindred(src) && !HAS_TRAIT(src, TRAIT_TORPOR))
+	if((iskindred(src) || iscathayan(src)) && !HAS_TRAIT(src, TRAIT_TORPOR))
 		adjustOxyLoss(health - HEALTH_THRESHOLD_VAMPIRE_TORPOR)
 		updatehealth()
-	if(iskindred(src) && HAS_TRAIT(src, TRAIT_TORPOR))
+	if((iskindred(src) || iscathayan(src)) && HAS_TRAIT(src, TRAIT_TORPOR))
 		adjustOxyLoss(health - HEALTH_THRESHOLD_VAMPIRE_DEAD)
-	if(!iskindred(src))
+	if(!iskindred(src) && !iscathayan(src))
 		adjustOxyLoss(health - HEALTH_THRESHOLD_DEAD)
 		updatehealth()
 	if(!whispered)
@@ -406,12 +406,24 @@
 /mob/living/verb/untorpor()
 	set hidden = TRUE
 	if(HAS_TRAIT(src, TRAIT_TORPOR))
-		if (bloodpool > 0)
-			bloodpool -= 1
-			cure_torpor()
-			to_chat(src, "<span class='notice'>You have awoken from your Torpor.</span>")
-		else
-			to_chat(src, "<span class='warning'>You have no blood to re-awaken with...</span>")
+		if(iskindred(src))
+			if (bloodpool > 0)
+				bloodpool -= 1
+				cure_torpor()
+				to_chat(src, "<span class='notice'>You have awoken from your Torpor.</span>")
+			else
+				to_chat(src, "<span class='warning'>You have no blood to re-awaken with...</span>")
+		if(iscathayan(src))
+			if (yang_chi > 0)
+				yang_chi -= 1
+				cure_torpor()
+				to_chat(src, "<span class='notice'>You have awoken from your Little Death.</span>")
+			else if (yin_chi > 0)
+				yin_chi -= 1
+				cure_torpor()
+				to_chat(src, "<span class='notice'>You have awoken from your Little Death.</span>")
+			else
+				to_chat(src, "<span class='warning'>You have no Chi to re-awaken with...</span>")
 
 /mob/living/incapacitated(ignore_restraints = FALSE, ignore_grab = FALSE, ignore_stasis = FALSE)
 	if(HAS_TRAIT(src, TRAIT_INCAPACITATED) || (!ignore_restraints && (HAS_TRAIT(src, TRAIT_RESTRAINED) || (!ignore_grab && pulledby && pulledby.grab_state >= GRAB_AGGRESSIVE))) || (!ignore_stasis && IS_IN_STASIS(src)))
@@ -939,8 +951,8 @@
 			altered_grab_state++
 		var/resist_chance = BASE_GRAB_RESIST_CHANCE /// see defines/combat.dm, this should be baseline 60%
 		var/mob/living/G = pulledby
-		var/grabber_physique = (G.physique + G.additional_physique) * 10 // The one who is grabbing physique
-		var/resist_physique = (physique + additional_physique) * 10 // The one who is  resisting physique
+		var/grabber_physique = (G.get_total_physique()) * 10 // The one who is grabbing physique
+		var/resist_physique = (get_total_physique()) * 10 // The one who is  resisting physique
 		resist_chance = ((resist_chance + (resist_physique - grabber_physique))/altered_grab_state)
 		if(prob(resist_chance))
 			visible_message("<span class='danger'>[src] breaks free of [pulledby]'s grip!</span>", \
@@ -1017,6 +1029,7 @@
 				if(NPC.stat < SOFT_CRIT)
 					if(istype(what, /obj/item/clothing) || istype(what, /obj/item/vamp/keys) || istype(what, /obj/item/stack/dollar))
 						H.AdjustHumanity(-1, 6)
+						call_dharma("steal", H)
 			if(islist(where))
 				var/list/L = where
 				if(what == who.get_item_for_held_index(L[2]))
@@ -1973,3 +1986,29 @@
 			if (INTENT_HELP)
 				attack_result = style.help_act(src, target)
 	return attack_result
+
+//Making a proc for each of these.
+
+/mob/living/proc/get_total_physique()
+	return physique + additional_physique
+
+/mob/living/proc/get_total_dexterity()
+	return dexterity + additional_dexterity
+
+/mob/living/proc/get_total_social()
+	if(iscathayan(src))
+		if(mind?.dharma?.animated == "Yin")
+			return max(0, social + additional_social - 2)
+	return social + additional_social
+
+/mob/living/proc/get_total_mentality()
+	return mentality + additional_mentality
+
+/mob/living/proc/get_total_blood()
+	return blood + additional_blood
+
+/mob/living/proc/get_total_lockpicking()
+	return lockpicking + additional_lockpicking
+
+/mob/living/proc/get_total_athletics()
+	return athletics + additional_athletics
