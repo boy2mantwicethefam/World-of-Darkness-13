@@ -111,6 +111,7 @@
 	update_weed_icon()
 
 /obj/structure/weedshit/AltClick(mob/user)
+	to_chat(user, "<span class='notice'>You start [anchored ? "unsecuring" : "securing"] the [src] [anchored ? "from" : "to"] the ground.</span>")
 	if(do_after(user, 15))
 		if(anchored)
 			to_chat(user, "<span class='notice'>You unsecure the [src] from the ground.</span>")
