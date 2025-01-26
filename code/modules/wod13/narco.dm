@@ -17,7 +17,7 @@
 
 /obj/structure/weedshit/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>Alt-click to secure the [src] to the ground.</span>"
+	. += "<span class='notice'>Alt-click to secure \the [src] to the ground.</span>"
 	if(!wet)
 		. += "<span class='warning'>[src] is dry!</span>"
 	if(growth_stage == 5)
@@ -86,6 +86,10 @@
 	if(!amount_of_water)
 		. += "<span class='warning'>[src] is empty!</span>"
 
+/obj/structure/weedshit/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>Alt-click to [anchored ? "un" : ""]secure \the [src] [anchored ? "from" : "to"] the ground.</span>"
+
 /obj/structure/weedshit/attack_hand(mob/user, params)
 	. = ..()
 	if(growth_stage == 5)
@@ -111,14 +115,14 @@
 	update_weed_icon()
 
 /obj/structure/weedshit/AltClick(mob/user)
-	to_chat(user, "<span class='notice'>You start [anchored ? "unsecuring" : "securing"] the [src] [anchored ? "from" : "to"] the ground.</span>")
+	to_chat(user, "<span class='notice'>You start [anchored ? "unsecuring" : "securing"] \the [src] [anchored ? "from" : "to"] the ground.</span>")
 	if(do_after(user, 15))
 		if(anchored)
-			to_chat(user, "<span class='notice'>You unsecure the [src] from the ground.</span>")
+			to_chat(user, "<span class='notice'>You unsecure \the [src] from the ground.</span>")
 			anchored = FALSE
 			return
 		else
-			to_chat(user, "<span class='notice'>You secure the [src] to the ground.</span>")
+			to_chat(user, "<span class='notice'>You secure \the [src] to the ground.</span>")
 			anchored = TRUE
 			return
 
@@ -424,7 +428,7 @@ SUBSYSTEM_DEF(smokeweedeveryday)
 
 /obj/structure/methlab/movable/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>Alt-click to secure the [src] to the ground.</span>"
+	. += "<span class='notice'>Alt-click to [anchored ? "un" : ""]secure \the [src] [anchored ? "from" : "to"] the ground.</span>"
 
 	if(health == 20)
 		. += "<span class='notice'>[src] is in good condition.</span>"
@@ -439,13 +443,14 @@ SUBSYSTEM_DEF(smokeweedeveryday)
 		. += "<span class='warning'>[src] is about to fall apart!</span>"
 
 /obj/structure/methlab/AltClick(mob/user)
+	to_chat(user, "<span class='notice'>You start [anchored ? "unsecuring" : "securing"] \the [src] [anchored ? "from" : "to"] the ground.</span>")
 	if(do_after(user, 15))
 		if(anchored)
-			to_chat(user, "<span class='notice'>You unsecure the [src] from the ground.</span>")
+			to_chat(user, "<span class='notice'>You unsecure \the [src] from the ground.</span>")
 			anchored = FALSE
 			return
 		else
-			to_chat(user, "<span class='notice'>You secure the [src] to the ground.</span>")
+			to_chat(user, "<span class='notice'>You secure \the [src] to the ground.</span>")
 			anchored = TRUE
 			return
 
