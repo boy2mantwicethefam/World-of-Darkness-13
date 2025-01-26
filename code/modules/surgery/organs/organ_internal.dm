@@ -31,6 +31,8 @@
 	var/list/food_reagents = list(/datum/reagent/consumable/nutriment = 5)
 	///The size of the reagent container
 	var/reagent_vol = 10
+	humanity_loss_on_sale = -1
+	humanity_loss_on_sale_limit = 5
 
 /obj/item/organ/Initialize()
 	. = ..()
@@ -239,3 +241,14 @@
 /// Called before organs are replaced in regenerate_organs with new ones
 /obj/item/organ/proc/before_organ_replacement(obj/item/organ/replacement)
 	return
+
+/obj/item/organ/can_sell()
+	if(damage > round(maxHealth/2))
+		return FALSE
+	return TRUE
+
+/obj/item/organ/on_sale_success_message()
+	return "<span class='userdanger'><b>Selling organs is a depraved act! If I keep doing this I will become a wight.</b></span>"
+
+/obj/item/organ/on_sale_fail_message()
+	return "<span class='warning'>[src] is too damaged to sell!</span>"

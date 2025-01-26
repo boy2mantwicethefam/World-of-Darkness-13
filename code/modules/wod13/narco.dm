@@ -42,6 +42,8 @@
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
 	illegal = TRUE
 	cost = 150
+	humanity_loss_on_sale = -1
+	humanity_loss_on_sale_limit = 7
 
 /datum/crafting_recipe/weed_leaf
 	name = "Sort Weed"
@@ -72,6 +74,8 @@
 	eat_time = 10
 	illegal = TRUE
 	cost = 50
+	humanity_loss_on_sale = -1
+	humanity_loss_on_sale_limit = 7
 
 /obj/item/bailer
 	name = "bailer"
@@ -543,12 +547,16 @@ SUBSYSTEM_DEF(smokeweedeveryday)
 	foodtype = BREAKFAST
 	illegal = TRUE
 	cost = 300
+	humanity_loss_on_sale = -1
+	humanity_loss_on_sale_limit = 4
 
 /obj/item/reagent_containers/food/drinks/meth/cocaine
 	name = "white package"
 	icon_state = "package_cocaine"
 	list_reagents = list(/datum/reagent/drug/methamphetamine/cocaine = 30)
 	cost = 300
+	humanity_loss_on_sale = -1
+	humanity_loss_on_sale_limit = 5
 
 /obj/item/reagent_containers/drug/methpack
 	name = "\improper elite blood pack (full)"

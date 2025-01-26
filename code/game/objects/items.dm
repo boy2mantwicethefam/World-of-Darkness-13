@@ -213,6 +213,10 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	///If this item is magical and thus picked up on magic senses
 	var/is_magic = FALSE
 
+	//Variables for humanity modifiers when selling items. Used primarily in code/modules/wod13/lombard.dm
+	var/humanity_loss_on_sale = 0
+	var/humanity_loss_on_sale_limit = 0
+
 	//WoD13 vars end here :3
 
 /obj/item/Initialize()
@@ -1135,3 +1139,15 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 	if(ismob(loc))
 		var/mob/mob_loc = loc
 		mob_loc.regenerate_icons()
+
+//Proc for checking whether an item can actually be sold.
+/obj/item/proc/can_sell()
+	return cost > 0
+
+//Proc for sending a message to the user depending on the sale.
+/obj/item/proc/on_sale_success_message()
+	return
+
+//Proc for a message in case we failed to sell something.
+/obj/item/proc/on_sale_fail_message()
+	return
