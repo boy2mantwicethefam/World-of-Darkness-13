@@ -23,15 +23,6 @@
 		M.emote(pick("twitch","drool","moan","giggle"))
 	..()
 
-/datum/reagent/drug/space_drugs/overdose_start(mob/living/M)
-	to_chat(M, "<span class='userdanger'>You start tripping hard!</span>")
-	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "[type]_overdose", /datum/mood_event/overdose, name)
-
-/datum/reagent/drug/space_drugs/overdose_process(mob/living/M)
-	if(M.hallucination < volume && prob(20))
-		M.hallucination += 5
-	..()
-
 /datum/reagent/drug/nicotine
 	name = "Nicotine"
 	description = "Slightly reduces stun times. If overdosed it will deal toxin and oxygen damage."
