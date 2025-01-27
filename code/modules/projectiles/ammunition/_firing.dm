@@ -18,14 +18,14 @@
 
 	if(click_cooldown_override)
 		if(click_cooldown_override > CLICK_CD_RAPID)
-			if(user.no_fire_delay)
+			if(user.halved_fire_delay)
 				user.changeNext_move(max(CLICK_CD_RAPID, round(click_cooldown_override/2)))
 			else
 				user.changeNext_move(click_cooldown_override)
 		else
 			user.changeNext_move(click_cooldown_override)
 	else
-		if(user.no_fire_delay)
+		if(user.halved_fire_delay)
 			user.changeNext_move(CLICK_CD_RAPID)
 		else
 			user.changeNext_move(CLICK_CD_RANGE)
