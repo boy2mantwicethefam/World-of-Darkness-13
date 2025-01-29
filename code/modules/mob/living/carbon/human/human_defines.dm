@@ -125,6 +125,8 @@
 
 	var/can_be_embraced = TRUE
 
+	var/halved_fire_delay = FALSE
+
 	yang_chi = 4
 	max_yang_chi = 4
 	yin_chi = 2
