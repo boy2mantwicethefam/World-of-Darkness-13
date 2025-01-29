@@ -322,8 +322,10 @@
 	var/randomized_bonus_spread = rand(0, bonus_spread)
 
 	var/real_fire_delay = fire_delay
-	if(user.halved_fire_delay)
-		real_fire_delay /= 2
+	if(ishuman(user))
+		var/mob/living/carbon/human/shooter = user
+		if(shooter.halved_fire_delay)
+			real_fire_delay /= 2
 
 	if(burst_size > 1)
 		firing_burst = TRUE
