@@ -651,6 +651,7 @@ Dancer
 	desc = "You have a small, ancient secret, somehow related to Diablerie, and this decreases your chance to survive another one. <b>This isn't a licence to diablerie anyone you want!</b>"
 	value = -3
 	allowed_species = list("Vampire")
+*/
 
 /datum/quirk/badvision
 	name = "Nearsighted"
