@@ -8,23 +8,27 @@
 	var/illegal = FALSE
 
 /obj/lombard/attackby(obj/item/W, mob/living/user, params)
+	var/datum/component/selling/selling_component = W.GetComponent(/datum/component/selling)
+	if(!selling_component)
+		return
 	if(istype(W, /obj/item/stack))
 		return
-	if(W.illegal == illegal)
+	if(selling_component.illegal == illegal)
 		sell_one_item(W, user)
 	else
 		..()
 
 /obj/lombard/proc/sell_one_item(obj/item/sold, mob/living/user)
-	if(!sold.can_sell())
-		to_chat(user, sold.on_sale_fail_message())
+	var/datum/component/selling/sold_sc = sold.GetComponent(/datum/component/selling)
+	if(!sold_sc.can_sell())
+		to_chat(user, sold_sc.sale_fail_message())
 		return
-	sell_item(sold, user)
+	generate_money(sold, user)
 	playsound(loc, 'code/modules/wod13/sounds/sell.ogg', 50, TRUE)
-	to_chat(user, sold.on_sale_success_message())
+	to_chat(user, sold_sc.sale_success_message())
 	var/mob/living/carbon/human/seller = user
 	if(istype(seller))
-		seller.AdjustHumanity(sold.humanity_loss_on_sale, sold.humanity_loss_on_sale_limit)
+		seller.AdjustHumanity(sold_sc.humanity_loss, sold_sc.humanity_loss_limit)
 	qdel(sold)
 
 //This assumes that all items are of the same type
@@ -32,20 +36,22 @@
 	var/succeeded_sale
 	var/list/sold_items = list() //This will be returned at the end of the proc for use in lombard/MouseDrop_T()
 	for(var/obj/item/sold in items_to_sell)
-		if(!sold.can_sell())
-			to_chat(user, sold.on_sale_fail_message())
+		var/datum/component/selling/sold_sc = sold.GetComponent(/datum/component/selling)
+		if(!sold_sc.can_sell())
+			to_chat(user, sold_sc.sale_fail_message())
 			continue
-		sell_item(sold, user)
-		to_chat(user, sold.on_sale_success_message())
+		generate_money(sold, user)
 		succeeded_sale = TRUE
+		to_chat(user, sold_sc.sale_success_message())
 		sold_items += sold
 	if(succeeded_sale)
 		playsound(loc, 'code/modules/wod13/sounds/sell.ogg', 50, TRUE)
 	return sold_items
 	//Humanity adjustment and item deletion is handled in lombard/MouseDrop_T()
 
-/obj/lombard/proc/sell_item(obj/item/sold, mob/living/user, var/batch_sale = FALSE)
-	var/real_value = (sold.cost / 5) * (user.social + (user.additional_social * 0.1))
+/obj/lombard/proc/generate_money(obj/item/sold, mob/living/user)
+	var/datum/component/selling/sold_sc = sold.GetComponent(/datum/component/selling)
+	var/real_value = (sold_sc.cost / 5) * (user.social + (user.additional_social * 0.1))
 	var/obj/item/stack/dollar/money_to_spawn = new() //Don't pass off the loc until we add up the money, or else it will merge too early
 	//In case we ever add items that sell for more than the maximum amount of dollars in a stack and can be mass-sold, we use this code.
 	if(real_value >= money_to_spawn.max_amount)
@@ -73,7 +79,10 @@
 	..()
 	if(!istype(sold))
 		return
-	if(sold.illegal != illegal)
+	var/datum/component/selling/sold_sc = sold.GetComponent(/datum/component/selling)
+	if(!sold_sc) //Item has no selling component, do not sell.
+		return
+	if(sold_sc.illegal != illegal)
 		return
 	//Briefly copypasting the selling code since for now this is a separate proc compared to selling.
 	if(istype(sold, /obj/item/stack))
@@ -82,30 +91,34 @@
 		return
 	if(!user.CanReach(sold)) //User has to be near the goods themselves
 		return
-	//Supports mass-selling fish, organs, meth and weed.
-	var/list/acceptable_types = list(/obj/item/food/fish,
-									/obj/item/organ,
-									/obj/item/reagent_containers/food/drinks/meth,
-									/obj/item/weedpack)
-	if(!is_type_in_list(sold, acceptable_types))
-		return
 	var/turf/turf_with_items = sold.loc
 	if(!isturf(turf_with_items)) //No mouse-dragging while it's inside a bag or a container. Has to be on the floor.
 		return
+
 	var/mob/living/carbon/human/seller = user
 	var/list/item_list_to_sell = list() //Store this list for later, we are currently only doing a count to let the user know of their humanity hit.
 	for(var/obj/item/counted_item in turf_with_items)
-		if(counted_item.type == sold.type) //Has to be the exact same type
+		var/datum/component/selling/item_sc = counted_item.GetComponent(/datum/component/selling)
+		if(item_sc && (sold_sc.object_category == item_sc.object_category)) //Has to be the exact same type
+			//A bunch of redundant checks to make sure that the item being sold has the same variable values as every other item.
+			//Just in case.
+			if(item_sc.illegal != sold_sc.illegal)
+				continue
+			if(item_sc.humanity_loss != sold_sc.humanity_loss)
+				continue
+			if(item_sc.humanity_loss_limit != sold_sc.humanity_loss_limit)
+				continue
 			item_list_to_sell += counted_item
 	if(item_list_to_sell.len == 1) //Just one item, sell it normally
 		sell_one_item(sold, seller)
 		return
-	var/humanity_penalty_limit = sold.humanity_loss_on_sale_limit
-	if(sold.humanity_loss_on_sale && !seller.clane?.enlightenment) //Do the prompt if the user cares about humanity.
+
+	var/humanity_penalty_limit = sold_sc.humanity_loss_limit
+	if(sold_sc.humanity_loss && !seller.clane?.enlightenment) //Do the prompt if the user cares about humanity.
 		//We use these variable to determine whether a prospective seller should be notified about their humanity hit, prompting them if they're gonna lose it.
 		//Also used to merge the item sales into one AdjustHumanity() proc to avoid excessive noise and chat spam
 		var/humanity_loss_modifier = seller.clane ? seller.clane.humanitymod : 1
-		var/humanity_loss_risk = item_list_to_sell.len * humanity_loss_modifier * sold.humanity_loss_on_sale
+		var/humanity_loss_risk = item_list_to_sell.len * humanity_loss_modifier * sold_sc.humanity_loss
 		if(humanity_penalty_limit < seller.humanity) //Check if the user is actually at risk of losing more humanity.
 			if(humanity_penalty_limit <= 0 && ((user.humanity + humanity_loss_risk) <= 0)) //User will wight out if they do this, don't offer the alert, just warn the user.
 				to_chat(user, "<span class='warning'>Selling all of this will remove all of your Humanity!</span>")
@@ -128,7 +141,7 @@
 	var/list/sold_items = sell_multiple_items(item_list_to_sell, seller)
 	if(!sold_items.len)
 		return
-	seller.AdjustHumanity(sold.humanity_loss_on_sale * sold_items.len, humanity_penalty_limit)
+	seller.AdjustHumanity(sold_sc.humanity_loss * sold_items.len, humanity_penalty_limit)
 	//Leave this deletion at the very end just in case any earlier qdel would decide to hard-del the item and remove the item from the list before actually adjusting humanity and such
 	for(var/item_to_delete in sold_items)
 		qdel(item_to_delete)

@@ -40,10 +40,10 @@
 	icon = 'code/modules/wod13/items.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
-	illegal = TRUE
-	cost = 150
-	humanity_loss_on_sale = -1
-	humanity_loss_on_sale_limit = 7
+
+/obj/item/weedpack/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 150, "weed", TRUE, -1, 7)
 
 /datum/crafting_recipe/weed_leaf
 	name = "Sort Weed"
@@ -72,10 +72,10 @@
 	foodtypes = VEGETABLES
 	food_reagents = list(/datum/reagent/drug/space_drugs = 20, /datum/reagent/toxin/lipolicide = 20)
 	eat_time = 10
-	illegal = TRUE
-	cost = 50
-	humanity_loss_on_sale = -1
-	humanity_loss_on_sale_limit = 7
+
+/obj/item/food/vampire/weed/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 50, "weed", TRUE, -1, 7)
 
 /obj/item/bailer
 	name = "bailer"
@@ -545,18 +545,19 @@ SUBSYSTEM_DEF(smokeweedeveryday)
 	resistance_flags = FREEZE_PROOF
 	isGlass = FALSE
 	foodtype = BREAKFAST
-	illegal = TRUE
-	cost = 300
-	humanity_loss_on_sale = -1
-	humanity_loss_on_sale_limit = 4
+
+/obj/item/reagent_containers/food/drinks/meth/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/selling, 300, "meth", TRUE, -1, 4)
 
 /obj/item/reagent_containers/food/drinks/meth/cocaine
 	name = "white package"
 	icon_state = "package_cocaine"
 	list_reagents = list(/datum/reagent/drug/methamphetamine/cocaine = 30)
-	cost = 300
-	humanity_loss_on_sale = -1
-	humanity_loss_on_sale_limit = 5
+
+/obj/item/reagent_containers/food/drinks/meth/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/selling, 300, "cocaine", TRUE, -1, 5)
 
 /obj/item/reagent_containers/drug/methpack
 	name = "\improper elite blood pack (full)"
