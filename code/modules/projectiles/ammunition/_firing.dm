@@ -16,14 +16,13 @@
 		AddComponent(/datum/component/pellet_cloud, projectile_type, pellets)
 		SEND_SIGNAL(src, COMSIG_PELLET_CLOUD_INIT, target, user, fired_from, randomspread, spread, zone_override, params, distro)
 
-	var/mob/living/carbon/human/shooter = user
 	if(click_cooldown_override)
-		if((click_cooldown_override > CLICK_CD_RAPID) && HAS_TRAIT(shooter, TRAIT_GUNFIGHTER))
+		if((click_cooldown_override > CLICK_CD_RAPID) && HAS_TRAIT(user, TRAIT_GUNFIGHTER))
 			user.changeNext_move(max(CLICK_CD_RAPID, round(click_cooldown_override/2)))
 		else
 			user.changeNext_move(click_cooldown_override)
 	else
-		if(HAS_TRAIT(shooter, TRAIT_GUNFIGHTER))
+		if(HAS_TRAIT(user, TRAIT_GUNFIGHTER))
 			user.changeNext_move(CLICK_CD_RAPID)
 		else
 			user.changeNext_move(CLICK_CD_RANGE)
