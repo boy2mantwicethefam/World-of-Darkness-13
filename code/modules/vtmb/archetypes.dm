@@ -50,7 +50,7 @@
 	start_blood = 2
 
 /datum/archetype/gunfighter/special_skill(var/mob/living/carbon/human/H)
-	H.halved_fire_delay = TRUE
+	ADD_TRAIT(H, TRAIT_GUNFIGHTER, TRAUMA_TRAIT)
 
 /datum/archetype/diplomatic
 	name = "Diplomatic"
