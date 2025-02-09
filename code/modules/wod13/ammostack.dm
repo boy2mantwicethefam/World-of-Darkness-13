@@ -280,7 +280,7 @@
 	name = "ammo box (.50)"
 	icon_state = "50box"
 	ammo_type = /obj/item/ammo_casing/vampire/c50
-	max_ammo = 30
+	max_ammo = 20
 
 /obj/item/ammo_box/vampire/c556
 	name = "ammo box (5.56)"
