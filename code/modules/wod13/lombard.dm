@@ -52,7 +52,7 @@
 /obj/lombard/proc/generate_money(obj/item/sold, mob/living/user)
 	var/datum/component/selling/sold_sc = sold.GetComponent(/datum/component/selling)
 	var/real_value = (sold_sc.cost / 5) * (user.social + (user.additional_social * 0.1))
-	var/obj/item/stack/dollar/money_to_spawn = new() //Don't pass off the loc until we add up the money, or else it will merge too early
+	var/obj/item/stack/dollar/money_to_spawn = new() //Don't pass off the loc until we add up the money, or else it will merge too early and delete some money entities
 	//In case we ever add items that sell for more than the maximum amount of dollars in a stack and can be mass-sold, we use this code.
 	if(real_value >= money_to_spawn.max_amount)
 		money_to_spawn.amount = money_to_spawn.max_amount
@@ -84,9 +84,6 @@
 		return
 	if(sold_sc.illegal != illegal)
 		return
-	//Briefly copypasting the selling code since for now this is a separate proc compared to selling.
-	if(istype(sold, /obj/item/stack))
-		return
 	if(!user.CanReach(src)) //User has to be near the pawnshop/black market
 		return
 	if(!user.CanReach(sold)) //User has to be near the goods themselves
@@ -116,11 +113,10 @@
 	var/humanity_penalty_limit = sold_sc.humanity_loss_limit
 	if(sold_sc.humanity_loss && !seller.clane?.enlightenment) //Do the prompt if the user cares about humanity.
 		//We use these variable to determine whether a prospective seller should be notified about their humanity hit, prompting them if they're gonna lose it.
-		//Also used to merge the item sales into one AdjustHumanity() proc to avoid excessive noise and chat spam
 		var/humanity_loss_modifier = seller.clane ? seller.clane.humanitymod : 1
 		var/humanity_loss_risk = item_list_to_sell.len * humanity_loss_modifier * sold_sc.humanity_loss
 		if(humanity_penalty_limit < seller.humanity) //Check if the user is actually at risk of losing more humanity.
-			if(humanity_penalty_limit <= 0 && ((user.humanity + humanity_loss_risk) <= 0)) //User will wight out if they do this, don't offer the alert, just warn the user.
+			if((humanity_penalty_limit <= 0) && ((user.humanity + humanity_loss_risk) <= 0)) //User will wight out if they do this, don't offer the alert, just warn the user.
 				to_chat(user, "<span class='warning'>Selling all of this will remove all of your Humanity!</span>")
 				return
 			var/maximum_humanity_loss = min(seller.humanity - humanity_penalty_limit, -humanity_loss_risk)
@@ -139,6 +135,7 @@
 	if(!item_list_to_sell.len)
 		return
 	var/list/sold_items = sell_multiple_items(item_list_to_sell, seller)
+	//Items that have been returned were successfully sold
 	if(!sold_items.len)
 		return
 	seller.AdjustHumanity(sold_sc.humanity_loss * sold_items.len, humanity_penalty_limit)

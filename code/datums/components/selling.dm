@@ -3,11 +3,16 @@
 // Does not cover individual item costs, it can be changed to allow for that but one would have to go through many items to individually add the selling component.
 
 /datum/component/selling
-	var/cost //Sale price of the item
-	var/object_category //Items of the same category will be mass-sold when click-dragging them
-	var/illegal //Dictates whether the item can be sold at a pawn shop or black market
-	var/humanity_loss //Will reduce humanity by a specific number when sold
-	var/humanity_loss_limit //Down to what point humanity can be reduced when selling the item.
+	///Sale price of the item
+	var/cost
+	///Items of the same category will be mass-sold when click-dragging them
+	var/object_category
+	///Dictates whether the item can be sold at a pawn shop or black market
+	var/illegal
+	///Will reduce humanity by a specific number when sold
+	var/humanity_loss
+	///Down to what point humanity can be reduced when selling the item.
+	var/humanity_loss_limit
 
 /datum/component/selling/Initialize(new_cost, new_object_category, new_illegal, new_humanity_loss, new_humanity_loss_limit)
 	if(!isobj(parent)) //Only items can be sold
@@ -37,12 +42,12 @@
 
 /datum/component/selling/organ/can_sell()
 	var/obj/item/organ/organ = parent
-	if(organ.damage > round(organ.maxHealth/2))
+	if(organ.damage > round(organ.maxHealth / 2))
 		return FALSE
 	return TRUE
 
 /datum/component/selling/organ/sale_success_message()
-	return "<span class='userdanger'><b>Selling organs is a depraved act! If I keep doing this I will become a wight.</b></span>"
+	return "<span class='userdanger'>Selling organs is a depraved act! If I keep doing this I will become a wight.</span>"
 
 /datum/component/selling/organ/sale_fail_message()
 	return "<span class='warning'>[src] is too damaged to sell!</span>"
