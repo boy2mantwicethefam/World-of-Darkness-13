@@ -237,7 +237,7 @@ CHECK_RANDOMIZER
 FORUMURL https://discord.gg/WU92NG2Me8
 
 ## Wiki address
-WIKIURL https://discord.gg/WU92NG2Me8
+WIKIURL https://wiki.wod13.org
 
 ## Rules address
 RULESURL https://discord.gg/WU92NG2Me8
@@ -532,3 +532,9 @@ DEFAULT_VIEW_SQUARE 15x15
 
 ## Add the ID of the role you want assigning here
 #DISCORD_ROLEID 000000000000000000
+
+## The path to export current .sav format files to json. If commented out, has no effect.
+## Assuming you're saving inside the directory where you have your .dme
+## Windows: directory\to\save\ | Linux: directory/to/save/
+## Don't forget the last path separator!
+#JSON_CONVERSION_PATH data\player_saves\json_saves\

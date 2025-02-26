@@ -155,7 +155,7 @@ SUBSYSTEM_DEF(ticker)
 				start_at = world.time + (CONFIG_GET(number/lobby_countdown) * 10)
 			for(var/client/C in GLOB.clients)
 				window_flash(C, ignorepref = TRUE) //let them know lobby has opened up.
-			to_chat(world, "<span class='boldnotice'>Welcome to [station_name()]!</span>")
+			to_chat(world, "<span class='boldnotice'>Welcome to [SSmapping.config.map_name]!</span>")
 			send2chat("New round starting on [SSmapping.config.map_name]!", CONFIG_GET(string/chat_announce_new_game))
 			current_state = GAME_STATE_PREGAME
 			//Everyone who wants to be an observer is now spawned
@@ -627,6 +627,10 @@ SUBSYSTEM_DEF(ticker)
 	set waitfor = FALSE
 	if(usr && !check_rights(R_SERVER, TRUE))
 		return
+	// Make sure to set json_conversion_path in config/config.txt! You can't set this in-game!
+	if(CONFIG_GET(string/json_conversion_path))
+		// Buckle up, we're gonna json it...
+		world.convert_saves_to_json(CONFIG_GET(string/json_conversion_path))
 
 	if(!delay)
 		delay = CONFIG_GET(number/round_end_countdown) * 10

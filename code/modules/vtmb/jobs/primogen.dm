@@ -18,7 +18,7 @@
 
 	allowed_species = list("Vampire")
 	allowed_bloodlines = list("Malkavian")
-	minimal_generation = 7	//Uncomment when players get exp enough
+	minimal_generation = 10
 
 	v_duty = "Offer your infinite knowledge to Prince of the City."
 	experience_addition = 20
@@ -39,7 +39,7 @@
 	head = /obj/item/clothing/head/vampire/malkav
 	l_pocket = /obj/item/vamp/phone/malkavian
 	r_pocket = /obj/item/cockclock
-	backpack_contents = list(/obj/item/vamp/keys/malkav/primogen=1, /obj/item/vamp/keys/clinic, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1)
+	backpack_contents = list(/obj/item/vamp/keys/malkav/primogen=1, /obj/item/vamp/keys/clinic, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1, /obj/item/card/id/whip, /obj/item/card/id/steward, /obj/item/card/id/myrmidon)
 
 /datum/outfit/job/malkav/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -69,7 +69,7 @@
 
 	allowed_species = list("Vampire")
 	allowed_bloodlines = list("Nosferatu")
-	minimal_generation = 7	//Uncomment when players get exp enough
+	minimal_generation = 10
 
 	v_duty = "Offer your infinite knowledge to Prince of the City."
 	experience_addition = 20
@@ -89,7 +89,7 @@
 	shoes = /obj/item/clothing/shoes/vampire
 	l_pocket = /obj/item/vamp/phone/nosferatu
 	r_pocket = /obj/item/cockclock
-	backpack_contents = list(/obj/item/vamp/keys/nosferatu/primogen=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1)
+	backpack_contents = list(/obj/item/vamp/keys/nosferatu/primogen=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1, /obj/item/card/id/whip, /obj/item/card/id/steward, /obj/item/card/id/myrmidon)
 
 /datum/outfit/job/nosferatu/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -116,7 +116,7 @@
 
 	allowed_species = list("Vampire")
 	allowed_bloodlines = list("Ventrue")
-	minimal_generation = 7	//Uncomment when players get exp enough
+	minimal_generation = 10
 
 	v_duty = "Offer your infinite knowledge to Prince of the City."
 	experience_addition = 20
@@ -135,7 +135,7 @@
 	shoes = /obj/item/clothing/shoes/vampire
 	l_pocket = /obj/item/vamp/phone/ventrue
 	r_pocket = /obj/item/cockclock
-	backpack_contents = list(/obj/item/vamp/keys/ventrue/primogen=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1)
+	backpack_contents = list(/obj/item/vamp/keys/ventrue/primogen=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1, /obj/item/card/id/whip, /obj/item/card/id/steward, /obj/item/card/id/myrmidon)
 
 /datum/outfit/job/ventrue/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -162,7 +162,7 @@
 
 	allowed_species = list("Vampire")
 	allowed_bloodlines = list("Toreador")
-	minimal_generation = 7	//Uncomment when players get exp enough
+	minimal_generation = 10
 
 	v_duty = "Offer your infinite knowledge to Prince of the City."
 	experience_addition = 20
@@ -181,7 +181,7 @@
 	shoes = /obj/item/clothing/shoes/vampire
 	l_pocket = /obj/item/vamp/phone/toreador
 	r_pocket = /obj/item/cockclock
-	backpack_contents = list(/obj/item/vamp/keys/toreador/primogen=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1)
+	backpack_contents = list(/obj/item/vamp/keys/toreador/primogen=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1, /obj/item/card/id/whip, /obj/item/card/id/steward, /obj/item/card/id/myrmidon, /obj/item/gun/ballistic/automatic/vampire/beretta/toreador=1, /obj/item/ammo_box/magazine/semi9mm/toreador=1)
 
 /datum/outfit/job/toreador/pre_equip(mob/living/carbon/human/H)
 	..()
@@ -210,7 +210,7 @@
 
 	allowed_species = list("Vampire")
 	allowed_bloodlines = list("Brujah")
-	minimal_generation = 7	//Uncomment when players get exp enough
+	minimal_generation = 10
 
 	v_duty = "Offer your infinite knowledge to Prince of the City."
 	experience_addition = 20
@@ -229,4 +229,4 @@
 	shoes = /obj/item/clothing/shoes/vampire/jackboots
 	l_pocket = /obj/item/vamp/phone/brujah
 	r_pocket = /obj/item/cockclock
-	backpack_contents = list(/obj/item/vamp/keys/brujah/primogen=1, /obj/item/melee/vampirearms/eguitar=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1)
+	backpack_contents = list(/obj/item/vamp/keys/brujah/primogen=1, /obj/item/melee/vampirearms/eguitar=1, /obj/item/passport=1, /obj/item/flashlight=1, /obj/item/vamp/creditcard/elder=1, /obj/item/card/id/whip, /obj/item/card/id/steward, /obj/item/card/id/myrmidon)

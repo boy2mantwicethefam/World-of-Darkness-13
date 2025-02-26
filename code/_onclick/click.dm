@@ -99,6 +99,7 @@
 	var/turf/T = get_step(src, dir)
 	var/turf/T1 = get_step(T, turn(dir, -90))
 	var/turf/T2 = get_step(T, turn(dir, 90))
+	SEND_SIGNAL(src, COMSIG_MOB_MELEE_SWING, M, T, T1, T2)
 	for(var/mob/living/MB in T)
 		if(MB)
 			M = MB
@@ -504,7 +505,7 @@
 	if(istype(ML))
 		ML.pulled(src)
 
-/mob/living/carbon/human/CtrlClick(mob/user)
+/mob/living/CtrlClick(mob/user)
 	if(ishuman(user) && Adjacent(user) && !user.incapacitated())
 		if(world.time < user.next_move)
 			return FALSE
