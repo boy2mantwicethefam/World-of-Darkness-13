@@ -339,7 +339,10 @@
 	lock_back_sound = 'sound/weapons/gun/pistol/lock_small.ogg'
 	bolt_drop_sound = 'sound/weapons/gun/pistol/drop_small.ogg'
 	fire_sound_volume = 75
-	cost = 70
+
+/obj/item/gun/ballistic/automatic/vampire/beretta/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 70, "beretta", FALSE)
 
 /obj/item/gun/ballistic/automatic/vampire/beretta/toreador
 	name = "\improper Sword Series S 9mm"
@@ -349,7 +352,10 @@
 	worn_icon_state = "beretta"
 	projectile_damage_multiplier = 2.5
 	fire_sound_volume = 110
-	cost = 666
+
+/obj/item/gun/ballistic/automatic/vampire/beretta/toreador/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 666, "toreador_beretta", FALSE)
 
 /obj/item/ammo_box/magazine/semi9mm
 	name = "pistol magazine (9mm)"
@@ -491,7 +497,10 @@
 	mag_display = TRUE
 	fire_sound = 'code/modules/wod13/sounds/rifle.ogg'
 	masquerade_violating = FALSE
-	cost = 150
+
+/obj/item/gun/ballistic/automatic/vampire/huntrifle/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 70, "hunting_rifle", FALSE)
 
 /obj/item/ammo_box/magazine/vamp545
 	name = "rifle magazine (5.45mm)"

@@ -9,7 +9,7 @@
 	var/object_category
 	///Dictates whether the item can be sold at a pawn shop or black market
 	var/illegal
-	///Will reduce humanity by a specific number when sold
+	///Will affect humanity by a specific value when sold, most often with a negative value (such as -1).
 	var/humanity_loss
 	///Down to what point humanity can be reduced when selling the item.
 	var/humanity_loss_limit

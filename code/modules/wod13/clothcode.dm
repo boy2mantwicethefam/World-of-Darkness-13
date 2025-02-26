@@ -386,7 +386,10 @@
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
 	body_worn = TRUE
 	fitted = NO_FEMALE_UNIFORM
-	cost = 10
+
+/obj/item/clothing/under/pentex/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 10, "undersuit", FALSE)
 
 /obj/item/clothing/under/pentex/pentex_janitor
 	name = "Ardus Enterprises custodian jumpsuit"
@@ -922,7 +925,10 @@
 	resistance_flags = NONE
 	armor = list(MELEE = 10, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 10, WOUND = 10)
 	body_worn = TRUE
-	cost = 15
+
+/obj/item/clothing/suit/pentex/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 15, "suit", FALSE)
 
 /obj/item/clothing/suit/pentex/pentex_labcoat
 	name = "Endron labcoat"
@@ -1235,7 +1241,10 @@
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
 	armor = list(MELEE = 10, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 10, WOUND = 10)
 	body_worn = TRUE
-	cost = 10
+
+/obj/item/clothing/head/pentex/Initialize()
+	. = ..()
+	AddComponent(/datum/component/selling, 10, "headwear", FALSE)
 
 /obj/item/clothing/head/pentex/pentex_yellowhardhat
 	name = "Endron hardhat"
