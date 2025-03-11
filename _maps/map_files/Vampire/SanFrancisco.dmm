@@ -674,21 +674,9 @@
 "ack" = (
 /obj/structure/table/wood,
 /obj/item/vamp/keys/hack,
-/obj/item/weedpack{
-	cost = 150;
-	desc = "Green and smelly... It's a special one, maybe costs hundreds of dollars...";
-	name = "Unique green package"
-	},
-/obj/item/weedpack{
-	cost = 150;
-	desc = "Green and smelly... It's a special one, maybe costs hundreds of dollars...";
-	name = "Unique green package"
-	},
-/obj/item/weedpack{
-	cost = 150;
-	desc = "Green and smelly... It's a special one, maybe costs hundreds of dollars...";
-	name = "Unique green package"
-	},
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
 /turf/open/floor/plating/parquetry/old,
 /area/vtm/sewer/nosferatu_town)
 "acm" = (
@@ -28121,11 +28109,7 @@
 /obj/machinery/light/small/pink{
 	pixel_y = 32
 	},
-/obj/item/weedpack{
-	cost = 150;
-	desc = "Green and smelly... It's a special one, maybe costs hundreds of dollars...";
-	name = "Unique green package"
-	},
+/obj/item/weedpack,
 /obj/effect/decal/pallet,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior)
@@ -47949,56 +47933,16 @@
 /area/vtm/sewer)
 "naK" = (
 /obj/structure/closet/crate/large,
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
+/obj/item/weedpack,
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior)
 "naV" = (
@@ -52014,11 +51958,7 @@
 /turf/open/floor/plating/parquetry/old,
 /area/vtm/anarch)
 "pff" = (
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
+/obj/item/weedpack,
 /turf/closed/wall/vampwall/rich/old/low,
 /area/vtm/interior/strip)
 "pfo" = (
@@ -63529,11 +63469,7 @@
 /area/vtm/interior/police)
 "uYP" = (
 /obj/structure/glowshroom/single,
-/obj/item/weedpack{
-	cost = 150;
-	desc = "Green and smelly... It's a special one, maybe costs hundreds of dollars...";
-	name = "Unique green package"
-	},
+/obj/item/weedpack,
 /turf/open/floor/plating/rough/cave,
 /area/vtm/interior)
 "uYQ" = (
@@ -65872,11 +65808,7 @@
 "wjg" = (
 /obj/structure/table,
 /obj/item/evidencebag,
-/obj/item/weedpack{
-	cost = 30;
-	desc = "Green and TOO smelly... Don't worth so much...";
-	name = "strange green package"
-	},
+/obj/item/weedpack,
 /turf/open/floor/plating/vampplating/mono,
 /area/vtm/interior/police)
 "wjy" = (
