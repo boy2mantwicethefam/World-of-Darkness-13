@@ -47,7 +47,7 @@
 	return TRUE
 
 /datum/component/selling/organ/sale_success_message()
-	return "<span class='userdanger'>Selling organs is a depraved act! If I keep doing this I will become a wight.</span>"
+	return span_userdanger("Selling organs is a depraved act! If I keep doing this I will become a wight.")
 
 /datum/component/selling/organ/sale_fail_message()
-	return "<span class='warning'>[src] is too damaged to sell!</span>"
+	return span_warning("[src] is too damaged to sell!")
