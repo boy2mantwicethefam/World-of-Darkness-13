@@ -192,6 +192,8 @@ GLOBAL_VAR_INIT(embedpocalypse, FALSE) // if true, all items will be able to emb
 
 	var/canMouseDown = FALSE
 
+	var/cost = 0
+
 	//WoD13 vars start here :3
 
 	//gridventory.dm VARIABLES

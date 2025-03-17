@@ -21,6 +21,7 @@
 	var/is_cyborg = FALSE // It's TRUE if module is used by a cyborg, and uses its storage
 	var/datum/robot_energy_storage/source
 	//[Lucia] - this is defined for all /obj/item/ instances in code\modules\wod13\lombard.dm
+	cost = 1
 	var/merge_type = null // This path and its children should merge with this stack, defaults to src.type
 	var/full_w_class = WEIGHT_CLASS_NORMAL //The weight class the stack should have at amount > 2/3rds max_amount
 	var/novariants = TRUE //Determines whether the item should update it's sprites based on amount.
@@ -151,7 +152,10 @@
 	. += "<span class='notice'>Alt-click to take a custom amount.</span>"
 
 /obj/item/stack/proc/get_amount()
-	. = (amount)
+	if(is_cyborg)
+		. = round(source?.energy / cost)
+	else
+		. = (amount)
 
 /**
  * Builds all recipes in a given recipe list and returns an association list containing them
@@ -356,6 +360,8 @@
 /obj/item/stack/use(used, transfer = FALSE, check = TRUE) // return 0 = borked; return 1 = had enough
 	if(check && zero_amount())
 		return FALSE
+	if(is_cyborg)
+		return source.use_charge(used * cost)
 	if (amount < used)
 		return FALSE
 	amount -= used
@@ -382,6 +388,8 @@
 	return TRUE
 
 /obj/item/stack/proc/zero_amount()
+	if(is_cyborg)
+		return source.energy < cost
 	if(amount < 1)
 		qdel(src)
 		return TRUE
@@ -393,7 +401,10 @@
  * - _amount: The number of units to add to this stack.
  */
 /obj/item/stack/proc/add(_amount)
-	amount += _amount
+	if(is_cyborg)
+		source.add_charge(_amount * cost)
+	else
+		amount += _amount
 	if(length(mats_per_unit))
 		update_custom_materials()
 	update_icon()
@@ -418,7 +429,10 @@
 	if(QDELETED(S) || QDELETED(src) || S == src) //amusingly this can cause a stack to consume itself, let's not allow that.
 		return
 	var/transfer = get_amount()
-	transfer = min(transfer, (limit ? limit : S.max_amount) - S.amount)
+	if(S.is_cyborg)
+		transfer = min(transfer, round((S.source.max_energy - S.source.energy) / S.cost))
+	else
+		transfer = min(transfer, (limit ? limit : S.max_amount) - S.amount)
 	if(pulledby)
 		pulledby.start_pulling(S)
 	S.copy_evidences(src)
